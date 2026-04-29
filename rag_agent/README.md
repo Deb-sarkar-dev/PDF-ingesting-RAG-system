@@ -44,19 +44,21 @@ The system intelligently decides when local knowledge is sufficient and when ext
 
 ## System Architecture
 
-User Query  
-↓  
-LangGraph Agent (Decision Maker)  
-↓  
-Context Retrieval Layer  
-├── Vector Database (ChromaDB) for local documents  
-├── Web Search + Content Extraction (when needed)  
-↓  
-Context Aggregation  
-↓  
-LLM Processing (Ollama - LLaMA 3.2)  
-↓  
-Final Response Output (CLI or API)
+## Hybrid RAG System Architecture
+
+User Query
+   ↓
+[LangGraph Agent]
+   ↓
+[Retrieval Layer]
+   ├─ Vector DB (ChromaDB)
+   └─ Web Search + Extraction
+   ↓
+[Context Aggregation]
+   ↓
+[LLM (LLaMA via Ollama)]
+   ↓
+Final Response (API / CLI)
 
 ---
 
