@@ -44,6 +44,7 @@ The system intelligently decides when local knowledge is sufficient and when ext
 
 ## System Architecture
 
+```
 User Query
    ↓
 LangGraph Agent (Decision Layer)
@@ -57,11 +58,10 @@ Context Aggregation
 LLM Processing (LLaMA via Ollama)
    ↓
 Final Response (API / CLI)
-
----
-
+```
 ## Project Structure
 
+```
 main.py        → CLI execution + ingestion pipeline  
 api.py         → FastAPI server + chat endpoint  
 
@@ -75,8 +75,7 @@ src/
 frontend/      → chat UI  
 data/          → input docs  
 chroma_db/     → vector storage  
-
----
+```
 
 ## External Tool Integration
 
