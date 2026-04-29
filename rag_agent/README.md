@@ -52,12 +52,11 @@ main.py          # CLI execution + ingestion
 api.py           # FastAPI server + chat endpoint
 
 src/
-  ingestion/     # PDF loading and preprocessing
-  retrieval/     # Vector DB and similarity search
-  generation/    # RAG chain / response generation
-  agents/        # LangGraph agent logic
-  tools/         # MCP tools (web search, scraping)
-  utils/         # helper functions
+  agent/      - LangGraph agent logic and orchestration
+  core/       - Core pipeline utilities and shared logic
+  llm/        - LLM interface and model handling (Ollama)
+  nodes/      - Individual processing steps in the agent graph
+  retrieval/  - Vector store and document retrieval logic
 
 frontend/        # Chat UI
 
