@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midnight RAG Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h1>Aetheris Intelligence</h1>
+            <p>Unified Multi-Agent System</p>
+        </header>
+        
+        <main class="chat-history" id="chatHistory">
+            <div class="message system-msg">
+                <div class="msg-content">Hello! Ask me any questions about your documents.</div>
+            </div>
+        </main>
+        
+        <footer class="input-area">
+            <input type="text" id="userInput" placeholder="Ask a question..." autocomplete="off">
+            <button id="sendBtn">Send</button>
+        </footer>
+    </div>
+    
+    <script src="/static/app.js"></script>
+</body>
+</html>
