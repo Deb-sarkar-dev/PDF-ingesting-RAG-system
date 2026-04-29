@@ -46,15 +46,15 @@ The system intelligently decides when local knowledge is sufficient and when ext
 
 User Query
    ↓
-[LangGraph Agent]
+LangGraph Agent (Decision Layer)
    ↓
-[Retrieval Layer]
-   ├─ Vector DB (ChromaDB)
-   └─ Web Search + Extraction
+Retrieval Layer
+   ├── Vector DB (ChromaDB)
+   └── Web Search + Extraction
    ↓
-[Context Aggregation]
+Context Aggregation
    ↓
-[LLM (LLaMA via Ollama)]
+LLM Processing (LLaMA via Ollama)
    ↓
 Final Response (API / CLI)
 
@@ -62,20 +62,19 @@ Final Response (API / CLI)
 
 ## Project Structure
 
-main.py # CLI execution + document ingestion pipeline
-api.py # FastAPI server and chat endpoint
+main.py        → CLI execution + ingestion pipeline  
+api.py         → FastAPI server + chat endpoint  
 
 src/
-agent/ # LangGraph agent orchestration logic
-core/ # Core utilities and shared pipeline logic
-llm/ # LLM interface (Ollama integration)
-nodes/ # Individual reasoning and processing nodes
-retrieval/ # Vector store + retrieval logic (ChromaDB)
+  agent/       → LangGraph orchestration  
+  core/        → shared logic  
+  llm/         → LLM interface (Ollama)  
+  nodes/       → processing nodes  
+  retrieval/   → vector DB + retrieval  
 
-frontend/ # Chat interface (UI)
-
-data/ # Input documents (ignored from version control)
-chroma_db/ # Persistent vector database storage (ignored)
+frontend/      → chat UI  
+data/          → input docs  
+chroma_db/     → vector storage  
 
 ---
 
