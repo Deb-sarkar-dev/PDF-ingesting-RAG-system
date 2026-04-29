@@ -1,61 +1,150 @@
 # Local Context-Aware RAG Agent
 
-A robust, multi-tenant Local Retrieval-Augmented Generation (RAG) system built with Python, LangGraph, Ollama, and FastAPI.
+A hybrid Retrieval-Augmented Generation (RAG) system combining local document understanding with real-time external knowledge via tool-augmented agents.
+
+---
 
 ## Overview
-This project provides a complete environment for running a local RAG agent. It ingests data (such as PDF files) into a local Chroma vector database and uses Llama 3.2 via Ollama to answer queries based on the contextual data. The agent is built using LangGraph, allowing for multi-agent capabilities, sophisticated tool calling (MCP), and external fallback searches (like Wikipedia or live web data) when local context falls short.
 
-## Features
-- **Local LLM Execution**: Uses [Ollama](https://ollama.com/) running the `llama3.2` model to ensure complete privacy and offline capabilities.
-- **RAG via ChromaDB**: Embeds and stores document data locally using ChromaDB for semantic retrieval.
-- **Agentic Workflow**: Powered by LangGraph to support tool calling, state management, and multi-step reasoning.
-- **CLI & Web Interfaces**:
-  - Run asynchronous queries directly from the command line (`main.py`).
-  - Spin up a local FastAPI server with a built-in React/HTML chat widget frontend (`api.py`).
-- **Persistent Memory**: Retains and caches insights from fallback tools for future requests.
+This project implements a locally deployed AI agent capable of answering queries using both **ingested documents (PDFs)** and **live web data**.
+
+The system uses a vector database (ChromaDB) for semantic retrieval and extends its capabilities through **tool-based augmentation (MCP)**, enabling dynamic information retrieval when local context is insufficient.
+
+Built using LangGraph, the agent supports multi-step reasoning, tool calling, and persistent contextual memory.
+
+---
+
+## Key Features
+
+* **Local LLM Execution** (via Ollama – LLaMA 3.2)
+* **Semantic Retrieval (RAG)** using ChromaDB
+* **Agentic Workflow** with LangGraph (multi-step reasoning + tool use)
+* **Hybrid Knowledge System**:
+
+  * Local PDFs (static knowledge)
+  * Web search + content extraction (dynamic knowledge)
+* **Dual Interface**:
+
+  * CLI-based querying
+  * Web UI via FastAPI
+* **Persistent Memory** from tool outputs
+
+---
+
+## Pipeline Overview
+
+1. Documents are loaded from `/data`
+2. Text is chunked and embedded into ChromaDB
+3. User query is processed by a LangGraph agent
+4. Relevant context is retrieved from the vector store
+5. If insufficient context:
+
+   * Agent triggers external tools (web search / content extraction)
+6. Combined context is passed to the LLM
+7. Final response is generated and returned via CLI or API
+
+---
 
 ## Project Structure
-- `main.py`: Entry point for standard command-line inference and PDF data ingestion.
-- `api.py`: FastAPI server that mounts the web frontend and exposes the `/api/chat` API endpoint.
-- `src/`: Core logic containing LangGraph agent setup, LLM provider wrappers, and Vector Store configurations.
-- `data/`: The directory where you can drop your source PDF files or text documents for ingestion.
-- `chroma_db/`: Local persistent storage for the Chroma vector database.
-- `frontend/`: Contains the static files for the chat web UI (e.g., `index.html`, `chat-widget.js`).
+
+```
+main.py          # CLI execution + ingestion
+api.py           # FastAPI server + chat endpoint
+
+src/
+  ingestion/     # PDF loading and preprocessing
+  retrieval/     # Vector DB and similarity search
+  generation/    # RAG chain / response generation
+  agents/        # LangGraph agent logic
+  tools/         # MCP tools (web search, scraping)
+  utils/         # helper functions
+
+frontend/        # Chat UI
+
+data/            # Input documents (ignored)
+chroma_db/       # Vector DB storage (ignored)
+```
+
+---
+
+## External Tool Integration
+
+The system integrates external tools via MCP (Model Context Protocol):
+
+* **Web Search (Exa API)**
+* **Page Content Extraction**
+
+### Purpose
+
+* Extend knowledge beyond local documents
+* Enable real-time information retrieval
+* Improve response relevance and coverage
+
+---
+
+## Example
+
+**Query:**
+"What are the key findings in the document?"
+
+**Response:**
+"The document focuses on X, highlighting Y and concluding Z..."
+
+*(Example shortened for demonstration)*
+
+---
 
 ## Getting Started
 
-### Prerequisites
-1. Python 3.9+
-2. [Ollama](https://ollama.com/) installed and running on your local machine.
-3. Make sure to pull the Llama model:
-   ```bash
-   ollama run llama3.2
-   ```
+### Requirements
 
-### Installation
-1. Clone the repository and navigate to the root directory.
-2. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+* Python 3.9+
+* Ollama installed
 
-### Usage
-
-**1. Command Line Execution:**
-You can directly query the agent from the terminal. By default, it looks for PDFs in the `rag_agent/data` folder:
 ```bash
-python main.py --query "What are the main topics in the documents?" --pdf_dir "rag_agent/data"
+ollama run llama3.2
 ```
 
-**2. Web Server & API:**
-Start the FastAPI backend and serve the Web UI frontend:
+### Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run (CLI)
+
+```bash
+python main.py --query "Your question here"
+```
+
+### Run (Web)
+
 ```bash
 python api.py
 ```
-Then, open your browser and navigate to `http://localhost:8000` to interact with the agent via the chat widget.
 
-## Built With
-- [LangGraph](https://python.langchain.com/v0.1/docs/langgraph/) - Framework for stateful agents.
-- [Ollama](https://ollama.com/) - Run local LLMs.
-- [Chroma](https://www.trychroma.com/) - The AI-native open-source embedding database.
-- [FastAPI](https://fastapi.tiangolo.com/) - Web API framework.
+Open: http://localhost:8000
+
+---
+
+## Tech Stack
+
+* LangGraph (agent orchestration)
+* Ollama (local LLM execution)
+* ChromaDB (vector storage)
+* FastAPI (backend API)
+
+---
+
+## Key Learnings
+
+* Designing hybrid RAG + agent systems
+* Integrating external tools into LLM workflows
+* Managing trade-offs between local and dynamic knowledge
+* Handling retrieval limitations and fallback strategies
+
+---
+
+## Disclaimer
+
+For educational purposes only. Not intended for medical or professional advice.
