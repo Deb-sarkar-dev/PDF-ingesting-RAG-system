@@ -1,173 +1,93 @@
-# Hybrid RAG Agent with Web Search Fallback
-
-A modular Retrieval-Augmented Generation (RAG) system that combines **local document understanding** with **real-time web search**, designed to improve factual accuracy and reduce hallucinations in Large Language Models.
-
----
-
-## Why This Project Exists
-
-Large Language Models (LLMs) are powerful but fundamentally limited:
-- They hallucinate when context is missing
-- They lack access to private or domain-specific documents
-- They cannot reliably access real-time information
-
-This project was built to address those limitations by creating a **hybrid knowledge system** that dynamically selects between local and external sources of information.
-
----
+# Real-Time Clinical Knowledge Retrieval System (RAG + Web-Augmented)
 
 ## Overview
 
-This system is a locally deployed AI agent capable of answering queries using:
+This project is a Retrieval-Augmented Generation (RAG) system designed for healthcare and pharmacovigilance use cases, enabling real-time access to clinical knowledge, drug information, and evidence-based medical content.
 
-- **Ingested documents (PDFs stored locally)**
-- **Semantic retrieval via vector database (ChromaDB)**
-- **Real-time web search and content extraction**
-- **Agent-based reasoning and tool selection (LangGraph)**
+It combines LLM-based reasoning with hybrid retrieval (vector database + web search) to reduce hallucination and improve factual grounding in healthcare-related queries.
 
-The system intelligently decides when local knowledge is sufficient and when external tools are required.
+The system is designed for clinical decision support and biomedical knowledge retrieval workflows.
+
+---
+
+## Problem Statement
+
+Healthcare professionals and pharmacovigilance teams often face:
+
+- Fragmented access to drug and clinical information  
+- Time-consuming manual search across multiple sources  
+- Risk of outdated or inconsistent medical knowledge  
+- Limitations of standalone LLMs due to hallucination  
+
+This system addresses these issues by providing a retrieval-grounded AI assistant for clinical knowledge access.
 
 ---
 
 ## Key Features
 
-- Local LLM execution using **Ollama (LLaMA 3.2)**
-- Semantic search using **ChromaDB vector database**
-- Hybrid retrieval (local + web-based knowledge)
-- Agentic workflow using **LangGraph**
-- Tool-augmented reasoning with dynamic decision making
-- Persistent context handling across multi-step queries
-- Dual interface:
-  - CLI-based interaction
-  - FastAPI backend for web usage
+- Hybrid Retrieval System combining vector database search and real-time web augmentation  
+- LLM-powered reasoning layer for context-aware responses  
+- Retrieval-grounded outputs to reduce hallucinations  
+- Healthcare-focused design for drug and clinical queries  
+- Adaptable to pharmacovigilance and clinical documentation workflows  
 
 ---
 
-## Hybrid RAG System Architecture
+## Healthcare Use Cases
 
-```
-User Query
-   ↓
-LangGraph Agent (Decision Layer)
-   ↓
-Retrieval Layer
-   ├── Vector DB (ChromaDB)
-   └── Web Search + Extraction
-   ↓
-Context Aggregation
-   ↓
-LLM Processing (LLaMA via Ollama)
-   ↓
-Final Response (API / CLI)
-```
-## Project Structure
-
-```
-main.py        → CLI execution + ingestion pipeline  
-api.py         → FastAPI server + chat endpoint  
-
-src/
-  agent/       → LangGraph orchestration  
-  core/        → shared logic  
-  llm/         → LLM interface (Ollama)  
-  nodes/       → processing nodes  
-  retrieval/   → vector DB + retrieval  
-
-frontend/      → chat UI  
-data/          → input docs  
-chroma_db/     → vector storage  
-```
-
-## External Tool Integration
-
-The system extends its capabilities using external tools via MCP (Model Context Protocol):
-
-### Web Search (Exa API)
-Used when local documents do not contain sufficient information.
-
-### Content Extraction
-Extracts and cleans relevant content from web pages.
-
-### Purpose of Tools
-- Extend knowledge beyond static documents
-- Enable real-time information access
-- Improve response completeness and reliability
+- Drug information retrieval systems  
+- Pharmacovigilance support (ADR monitoring assistance)  
+- Clinical guideline summarization  
+- Biomedical literature exploration  
+- Healthcare decision-support prototypes  
 
 ---
 
-## Example Workflow
+## System Architecture
 
-**User Query:**  
-"What are the key findings in the document?"
-
-**System Behavior:**
-- Retrieves relevant chunks from ChromaDB
-- Evaluates whether context is sufficient
-- Falls back to web search if needed
-- Combines retrieved sources into a final prompt
-
-**Response:**  
-A context-aware answer generated using both local and external knowledge sources.
-
----
-
-## Design Decisions
-
-- **Local LLM (Ollama)**  
-  Enables offline execution and privacy-focused inference.
-
-- **Hybrid Retrieval System**  
-  Combines semantic vector search with keyword/web search for maximum coverage.
-
-- **Agent-Based Architecture (LangGraph)**  
-  Allows multi-step reasoning, conditional tool use, and structured workflows.
-
-- **Modular Design**  
-  Each component (retrieval, LLM, tools) is independent and extensible.
-
-- **Fallback Strategy**  
-  Ensures the system can recover when local context is insufficient.
-
----
-
-## Technical Highlights
-
-- Built a hybrid RAG + agent-based AI system from scratch
-- Integrated tool-calling for dynamic external knowledge retrieval
-- Designed modular architecture for extensibility
-- Implemented fallback mechanisms for missing or incomplete context
-- Combined offline LLM execution with real-time web augmentation
-
----
-
-## Example Use Case
-
-- Querying private PDFs (notes, research papers, documents)
-- Answering general knowledge questions with real-time accuracy
-- Combining multiple knowledge sources into a single coherent response
+1. User query input  
+2. Query embedding generation  
+3. Hybrid retrieval (vector database + web search)  
+4. Context ranking and filtering  
+5. LLM response generation  
+6. Final grounded response output  
 
 ---
 
 ## Tech Stack
 
-- Python
-- Ollama (LLaMA 3.2)
-- LangGraph (agent orchestration)
-- ChromaDB (vector database)
-- FastAPI (backend API)
-- Exa API (web search tool)
+- Python  
+- LangChain / LLM orchestration  
+- Vector database (FAISS / Chroma or similar)  
+- LLM (Llama-based or API-based model)  
+- Web search integration  
+- Prompt engineering for retrieval grounding  
+
+---
+
+## Why This Project Matters
+
+Unlike generic chatbot systems, this project is designed around healthcare reliability principles:
+
+- Evidence-grounded responses  
+- Retrieval-first architecture  
+- Reduced hallucination risk  
+- Adaptable to regulated healthcare environments  
+
+This makes it relevant for healthtech, pharma analytics, and clinical AI applications.
 
 ---
 
 ## Future Improvements
 
-- Advanced reranking models for better retrieval quality
-- Evaluation metrics (faithfulness, context relevance)
-- Streaming responses for real-time interaction
-- Improved caching and latency optimization
-- Multi-agent collaboration system
+- Integration with biomedical databases (PubMed, DrugBank)  
+- Pharmacovigilance-specific structured outputs (ADR extraction)  
+- Evaluation metrics for factual consistency  
+- EHR-style clinical context integration  
+- Role-based access control for healthcare workflows  
 
 ---
 
 ## Disclaimer
 
-This project is for educational and research purposes only. It is not intended for medical, legal, or professional decision-making use.
+This project is a research/prototype system and is not intended for direct clinical use. Outputs should be validated against certified medical sources before real-world application.
